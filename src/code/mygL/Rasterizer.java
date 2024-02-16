@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Rasterizer {
     private ArrayList<VBO> vboList;
-    public final ShaderA[] shaders;
+    public final Shader[] shaders;
     public void prepare() {
         var num = vboList.size();
         if (num < shaders.length) {
@@ -18,13 +18,13 @@ public class Rasterizer {
         }
     }
     public void render() {
-        for (ShaderA shader : shaders) {
+        for (Shader shader : shaders) {
             synchronized (shader) {
                 shader.work = true;
                 shader.notify();
             }
         }
-        for (ShaderA shader : shaders) {
+        for (Shader shader : shaders) {
             synchronized (shader.lock) {
                 while (shader.work) {
                     try {
@@ -38,9 +38,9 @@ public class Rasterizer {
     }
     public Rasterizer() {
         vboList = new ArrayList<>(1000);
-        shaders = new ShaderA[4];
+        shaders = new Shader[4];
         for (var i = 0; i < shaders.length; i++) {
-            shaders[i] = new ShaderA("ShaderA" + i);
+            shaders[i] = new Shader("Shader" + i);
             shaders[i].vboList = vboList;
             shaders[i].start();
         }

@@ -13,8 +13,8 @@ import java.util.ArrayList;
 * */
 public class VBO {
     public long id;
-    public int type;
-    public TriangleColor tc;
+
+    public TriangleFillStyle tfs;
     public int localRotationX, localRotationY, localRotationZ;
     public Vector3D localTranslation;
     public Vector3D[] vertexes;
@@ -24,8 +24,6 @@ public class VBO {
     public float scale;
     public int vertexCount;
     public int triangleCount;
-
-    public boolean hasColors = false;
     public int [] colors;
 
 
@@ -36,14 +34,13 @@ public class VBO {
     public float ks;
     public float[] vertexLightLevels;
 
-    public enum TriangleColor {
-        Single,
-        ColorList
-    }
-
 
     public static final int SingleColor = 0;
     public static final int Colorful = 1;
     public static final int ColorWithLight = 2;
 
+    public enum TriangleFillStyle {
+        SingleColor,
+        ColorList
+    }
 }
