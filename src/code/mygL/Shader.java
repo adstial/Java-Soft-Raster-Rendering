@@ -2,10 +2,11 @@ package code.mygL;
 
 import java.util.ArrayList;
 
-public class ShaderA extends Thread{
+public class Shader extends Thread{
     public static final float nearClipDistance = 0.01f;
     public final Object lock;
     public boolean work;
+    public boolean close;
     public ArrayList<VBO> vboList;
     public int width, height, halfWidth, halfHeight, distance;
     public int[] screen;
@@ -16,7 +17,7 @@ public class ShaderA extends Thread{
     public int type;
 
 
-    public ShaderA(String name) {
+    public Shader(String name) {
         setName(name);
         lock = new Object();
 
@@ -26,7 +27,7 @@ public class ShaderA extends Thread{
 
     @Override
     public void run() {
-        while (true) {
+        while (!close) {
             sync();
 
         }

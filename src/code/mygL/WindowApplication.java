@@ -1,6 +1,6 @@
 package code.mygL;
 
-import code.dependence.utils.QuickMath;
+import code.dependence.math.QuickMath;
 
 import javax.swing.*;
 import java.awt.*;

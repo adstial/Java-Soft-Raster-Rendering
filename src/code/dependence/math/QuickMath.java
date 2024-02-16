@@ -1,4 +1,4 @@
-package code.dependence.utils;
+package code.dependence.math;
 
 public class QuickMath {
     public static float[] sin;
