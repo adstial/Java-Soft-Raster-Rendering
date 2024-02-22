@@ -1,7 +1,5 @@
-package code.dependence.utils;
+package code.dependence.math;
 
-
-import code.dependence.math.QuickMath;
 
 public final class Vector3D {
     public float x,y,z;

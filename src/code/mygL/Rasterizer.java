@@ -1,10 +1,13 @@
 package code.mygL;
 
+import code.dependence.logger.Logger;
+
 import java.util.ArrayList;
 
 public class Rasterizer {
     private ArrayList<VBO> vboList;
     public final Shader[] shaders;
+    private Logger log;
     public void prepare() {
         var num = vboList.size();
         if (num < shaders.length) {
@@ -29,19 +32,18 @@ public class Rasterizer {
                 while (shader.work) {
                     try {
                         shader.lock.wait();
-                    } catch (InterruptedException e1) {
-                        e1.printStackTrace();
+                    } catch (InterruptedException e) {
+                        log.fatal(Rasterizer.class, e.toString());
+                        WindowApplication.getContext().setShouldClose(true);
                     }
                 }
             }
         }
     }
     public Rasterizer() {
-        vboList = new ArrayList<>(1000);
         shaders = new Shader[4];
         for (var i = 0; i < shaders.length; i++) {
             shaders[i] = new Shader("Shader" + i);
-            shaders[i].vboList = vboList;
             shaders[i].start();
         }
     }
@@ -50,14 +52,33 @@ public class Rasterizer {
             shader.setContext(width, height, distance);
         }
     }
-    public void setContext(int[] screen, float[] zBuffer, Camera camera) {
-        for (var shader: shaders) {
-            shader.screen = screen;
-            shader.zBuffer = zBuffer;
-            shader.camera = camera;
+    public void setContext(int[] screen, float[] zBuffer) {
+        for (var shader : shaders) {
+            shader.setContext(screen, zBuffer);
         }
     }
-    public void addVBO(VBO vbo) {
-        vboList.add(vbo);
+    public void setContext(ArrayList<VBO> vboList) {
+        if (vboList != null) {
+            this.vboList = vboList;
+            for (var shader : shaders) {
+                shader.vboList = this.vboList;
+            }
+        }
+    }
+
+    public void setContext(Camera camera) {
+        if (camera != null) {
+            for (var shader: shaders) {
+                shader.setContext(camera);
+            }
+        }
+    }
+
+    public void setLog(Logger log) {
+        if (this.log == null) {
+            this.log = log;
+        } else {
+            this.log.warming(Rasterizer.class, "reset exited log");
+        }
     }
 }

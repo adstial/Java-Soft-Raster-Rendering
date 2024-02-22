@@ -1,4 +1,4 @@
-package code.dependence.utils;
+package code.dependence.math;
 
 import java.util.Random;
 

@@ -3,7 +3,7 @@ package code.dependence.json_paser;
 import java.util.HashMap;
 import java.util.List;
 
-public class JsonObject{
+public class JsonObject implements JJson{
     public HashMap<String, JsonValue<?>> nameValueMap;
     public static JsonObject buildJsonObject(List<Token> list) {
         var res = new JsonObject();
@@ -57,4 +57,8 @@ public class JsonObject{
         return res.toString();
     }
 
+    @Override
+    public JJson getElement(String name) {
+        return null;
+    }
 }

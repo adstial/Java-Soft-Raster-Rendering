@@ -18,7 +18,7 @@ public class ScreenBuffer {
     private Box<float []> nowZBuffer;
     private Box<int []> screenA, screenB;
     private Box<float[]> zBufferA, zBufferB;
-    private Box<BufferedImage> bufferedImageA, bufferedImageB;
+    private final Box<BufferedImage> bufferedImageA, bufferedImageB;
     private int backgroundColor;
 
     public ScreenBuffer(int x, int y, int width, int height, final WindowApplication context) {

@@ -5,10 +5,12 @@ import code.dependence.math.QuickMath;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.logging.Logger;
+
+import code.dependence.logger.Logger;
 
 public class WindowApplication {
     private static WindowApplication context;
@@ -28,6 +30,7 @@ public class WindowApplication {
 
     private Queue<String> windowEvent;
     private Rasterizer rasterizer;
+    private ArrayList<VBO> vboList;
     private Camera camera;
 
     public static WindowApplication CreateDefaultMainApplication(String name, int width, int height, int type) {
@@ -56,6 +59,9 @@ public class WindowApplication {
                 new ScreenBuffer(viewPortLocationX, viewPortLocationY, viewPortWidth, viewPortHeight, this);
         frame.setVisible(true);
         rasterizer.setContext(viewPortWidth, viewPortHeight, viewPortWidth * 2 / 3);
+        rasterizer.setContext(vboList);
+        rasterizer.setContext(camera);
+        rasterizer.setLog(log);
         g = screenBuffer.getPanel().getGraphics();
 
     }
@@ -70,7 +76,7 @@ public class WindowApplication {
     }
     public void drawScreen() {
         screenBuffer.clearBuffer();
-        rasterizer.setContext(screenBuffer.getNowScreen(), screenBuffer.getNowZBuffer(), camera);
+        rasterizer.setContext(screenBuffer.getNowScreen(), screenBuffer.getNowZBuffer());
         rasterizer.prepare();
         rasterizer.render();
     }
@@ -87,12 +93,14 @@ public class WindowApplication {
         if (runTime < expectMsPerFrame) try {
             Thread.sleep(expectMsPerFrame - runTime);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.fatal(e.toString());
+            setShouldClose(true);
         }
         oldTime = System.currentTimeMillis();
     }
     public void terminate() {
         frame.dispose();
+        log.waitUntilFinish();
     }
     public void setViewPort(int viewPortLocationX, int viewPortLocationY, int viewPortWidth, int viewPortHeight) {
         this.viewPortLocationX = viewPortLocationX;
@@ -150,8 +158,11 @@ public class WindowApplication {
         expectFps = fps;
         expectMsPerFrame = (int) ((1 / fps) * 1000);
     }
-    public void addVBO(VBO vbo) {
-        rasterizer.addVBO(vbo);
+    public void setList(ArrayList<VBO> list) {
+        if (list == null)
+            log.fatal(WindowApplication.class, "null value");
+        else
+            vboList = list;
     }
     public static KeyListener MoveFunction(String type) {
         if (type.equals("Default 1")) {
@@ -212,4 +223,6 @@ public class WindowApplication {
         }
         return null;
     }
+
+
 }

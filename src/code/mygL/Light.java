@@ -1,7 +1,7 @@
 package code.mygL;
 
 
-import code.dependence.utils.Vector3D;
+import code.dependence.math.Vector3D;
 
 public class Light {
     public Vector3D position;

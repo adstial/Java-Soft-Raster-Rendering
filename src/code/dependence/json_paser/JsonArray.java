@@ -3,7 +3,7 @@ package code.dependence.json_paser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JsonArray {
+public class JsonArray implements JJson{
     public ArrayList<JsonValue<?>> arrayList;
 
     public static JsonArray buildJsonArray(List<Token> list) {
@@ -53,5 +53,10 @@ public class JsonArray {
 
     public JsonValue<?> get(int index) {
         return this.arrayList.get(index);
+    }
+
+    @Override
+    public JJson getElement(String name) {
+        return null;
     }
 }
