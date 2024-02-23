@@ -16,6 +16,9 @@ public class VBO {
 
     public TriangleFillStyle tfs;
     public int localRotationX, localRotationY, localRotationZ;
+
+    public static final int X = 0, Y = 1, Z = 2;
+    public int[] localRotation;
     public Vector3D localTranslation;
     public Vector3D[] vertexes;
     public Vector3D[] updateVertexes;
@@ -28,6 +31,7 @@ public class VBO {
 
 
     public boolean hasLight = false;
+    public boolean hasNormals = false;
     public Vector3D[] normals;
     public ArrayList<Light> lightSource;
     public float kd;

@@ -5,5 +5,5 @@ import code.mygL.VBO;
 public interface VBOBuilder<Self extends VBOBuilder<Self, Param>, Param> {
     VBO build();
     Self setParam(Param p);
-    Self setParam(Param ...p);
+
 }

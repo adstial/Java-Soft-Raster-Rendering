@@ -31,7 +31,6 @@ public class WindowApplication {
     private Queue<String> windowEvent;
     private Rasterizer rasterizer;
     private ArrayList<VBO> vboList;
-    private Camera camera;
 
     public static WindowApplication CreateDefaultMainApplication(String name, int width, int height, int type) {
         var thisWindow = new WindowApplication();
@@ -46,7 +45,6 @@ public class WindowApplication {
 
         thisWindow.windowEvent = new LinkedList<>();
         thisWindow.rasterizer = new Rasterizer();
-        thisWindow.camera = new Camera();
         return thisWindow;
     }
     public static final int NoneStyle = 0;
@@ -60,7 +58,6 @@ public class WindowApplication {
         frame.setVisible(true);
         rasterizer.setContext(viewPortWidth, viewPortHeight, viewPortWidth * 2 / 3);
         rasterizer.setContext(vboList);
-        rasterizer.setContext(camera);
         rasterizer.setLog(log);
         g = screenBuffer.getPanel().getGraphics();
 
@@ -72,7 +69,7 @@ public class WindowApplication {
                 windowEvent != null;
     }
     public void updateCamera() {
-        camera.update(true, true);
+        Camera.update(true, true);
     }
     public void drawScreen() {
         screenBuffer.clearBuffer();
@@ -127,9 +124,15 @@ public class WindowApplication {
             });
         }
     }
-    public Camera getCamera() {
-        return camera;
+
+    public void setFrameType(final String type) {
+        if (type.equals("Center")) {
+            var dim = Toolkit.getDefaultToolkit().getScreenSize();
+            var screenHeight = dim.height; var screenWidth = dim.width;
+            frame.setLocation((screenWidth - windowWidth) / 2, (screenHeight - windowHeight) / 2);
+        }
     }
+
     public void addInputListener(EventListener listener) {
         if (listener instanceof KeyListener)
             frame.addKeyListener((KeyListener) listener);
@@ -137,7 +140,9 @@ public class WindowApplication {
             frame.addMouseMotionListener((MouseMotionListener) listener);
     }
     public void setScreenBackgroundColour(int color) {
-        screenBuffer.setBackgroundColor(color);
+        if (screenBuffer != null)
+            screenBuffer.setBackgroundColor(color);
+        else log.warming(WindowApplication.class, "ScreenBuffer has not initialized");
     }
     public boolean ShouldClose() {
         return willClose;
@@ -175,47 +180,46 @@ public class WindowApplication {
                     if (keyCode == KeyEvent.VK_1) {
                         context.getFrame().requestFocus();
                     }
-                    var camera = context.getCamera();
+
                     switch (keyCode) {
                         case KeyEvent.VK_W ->
-                                camera.MOVE_FORWARD = true;
+                                Camera.MOVE_FORWARD = true;
                         case KeyEvent.VK_S ->
-                                camera.MOVE_BACKWARD = true;
+                                Camera.MOVE_BACKWARD = true;
                         case KeyEvent.VK_A ->
-                                camera.SLIDE_LEFT = true;
+                                Camera.SLIDE_LEFT = true;
                         case KeyEvent.VK_D ->
-                                camera.SLIDE_RIGHT = true;
+                                Camera.SLIDE_RIGHT = true;
                         case KeyEvent.VK_UP ->
-                            camera.LOOK_UP = true;
+                                Camera.LOOK_UP = true;
                         case KeyEvent.VK_DOWN ->
-                            camera.LOOK_DOWN = true;
+                                Camera.LOOK_DOWN = true;
                         case KeyEvent.VK_LEFT ->
-                            camera.LOOK_LEFT = true;
+                                Camera.LOOK_LEFT = true;
                         case KeyEvent.VK_RIGHT ->
-                            camera.LOOK_RIGHT = true;
+                                Camera.LOOK_RIGHT = true;
                     }
                 }
                 @Override
                 public void keyReleased(KeyEvent e) {
                     var keyCode = e.getKeyCode();
-                    var camera = WindowApplication.getContext().getCamera();
                     switch (keyCode) {
                         case KeyEvent.VK_W ->
-                                camera.MOVE_FORWARD = false;
+                                Camera.MOVE_FORWARD = false;
                         case KeyEvent.VK_S ->
-                                camera.MOVE_BACKWARD = false;
+                                Camera.MOVE_BACKWARD = false;
                         case KeyEvent.VK_A ->
-                                camera.SLIDE_LEFT = false;
+                                Camera.SLIDE_LEFT = false;
                         case KeyEvent.VK_D ->
-                                camera.SLIDE_RIGHT = false;
+                                Camera.SLIDE_RIGHT = false;
                         case KeyEvent.VK_UP ->
-                                camera.LOOK_UP = false;
+                                Camera.LOOK_UP = false;
                         case KeyEvent.VK_DOWN ->
-                                camera.LOOK_DOWN = false;
+                                Camera.LOOK_DOWN = false;
                         case KeyEvent.VK_LEFT ->
-                                camera.LOOK_LEFT = false;
+                                Camera.LOOK_LEFT = false;
                         case KeyEvent.VK_RIGHT ->
-                                camera.LOOK_RIGHT = false;
+                                Camera.LOOK_RIGHT = false;
                     }
                 }
 

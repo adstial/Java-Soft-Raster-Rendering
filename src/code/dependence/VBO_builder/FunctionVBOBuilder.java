@@ -14,9 +14,5 @@ public class FunctionVBOBuilder implements VBOBuilder<FunctionVBOBuilder, String
         return null;
     }
 
-    @Override
-    public final FunctionVBOBuilder setParam(String... p) {
-        if (p == null) throw new AssertionError();
-        return null;
-    }
+
 }

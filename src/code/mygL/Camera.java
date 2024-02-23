@@ -1,40 +1,30 @@
 package code.mygL;
 
-
 import code.dependence.math.Vector3D;
+
 import java.util.Arrays;
 
-public class Camera {
-    private int MoveType;
-    private static final float moveSpeed = 0.03f;
-    private static final int turnRate = 1;
-    private Vector3D position;
-    private Vector3D waitMove;
-    private Vector3D viewDirection;
-    private int[] rate;            // (x: up/down, y: left/right, z)
-    public int[]  waitRate;
-    public boolean
+public final class Camera {
+    public static final float moveSpeed = 0.03f;
+    public static final int turnRate = 1;
+    public static int MoveType = 1;
+    public static Vector3D position = new Vector3D();
+    public static Vector3D waitMove = new Vector3D();
+    public static Vector3D viewDirection = new Vector3D();
+    public static int[] rate = new int[3];            // (x: up/down, y: left/right, z)
+    public static int[] waitRate = new int[3];
+    public static boolean
             MOVE_FORWARD, MOVE_BACKWARD,
             SLIDE_LEFT, SLIDE_RIGHT,
             LOOK_UP, LOOK_DOWN,
             LOOK_RIGHT, LOOK_LEFT;
 
-    public Camera() {
-        position = new Vector3D();
-        waitMove = new Vector3D();
-        viewDirection = new Vector3D(0,0,1);
-        rate = new int[] {0, 0, 0};
-        waitRate = new int[] {0, 0, 0};
-        MoveType = 1;
-    }
-    public void update(boolean move, boolean turn) {
+    public static void update(boolean move, boolean turn) {
         if (turn) turn();
         if (move) move();
     }
 
-
-
-    private void turn() {
+    public static void turn() {
         if (MoveType == 1) {
             if (LOOK_UP) {
                 rate[0] += turnRate;
@@ -59,7 +49,7 @@ public class Camera {
         }
     }
 
-    private void move() {
+    public static void move() {
         if (MoveType == 1) {
             if (MOVE_FORWARD) position.add(viewDirection, moveSpeed);
             if (MOVE_BACKWARD) position.sub(viewDirection, moveSpeed);
@@ -69,22 +59,10 @@ public class Camera {
             if (SLIDE_RIGHT)
                 position.sub(viewDirection.cross(new Vector3D(0,1,0)).unit(), moveSpeed);
         }
-
     }
 
-    public  int[] getRate() {
-        return rate;
-    }
-    public final Vector3D getPosition() {
-        return position;
-    }
-    public final Vector3D getViewDirection() {
-        return viewDirection;
-    }
-
-    @Override
-    public String toString() {
-        return "Camera(" +
+    public static String ToString() {
+        return "CameraA(" +
                 "position: " + position +
                 ", dir: " + viewDirection +
                 ", rate: " + Arrays.toString(rate) +

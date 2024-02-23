@@ -6,32 +6,32 @@ import java.util.ArrayList;
 
 public class Rasterizer {
     private ArrayList<VBO> vboList;
-    public final Shader[] shaders;
+    public final RenderCore[] renderCores;
     private Logger log;
     public void prepare() {
         var num = vboList.size();
-        if (num < shaders.length) {
-            shaders[0].setVboStartAndEnd(0, num - 1);
-            for (int i = 1; i < shaders.length; i++) {
-                shaders[i].setVboStartAndEnd(-1,-1);
+        if (num < renderCores.length) {
+            renderCores[0].setVboStartAndEnd(0, num - 1);
+            for (int i = 1; i < renderCores.length; i++) {
+                renderCores[i].setVboStartAndEnd(-1,-1);
             }
         } else {
-            var ave = num / shaders.length;
+            var ave = num / renderCores.length;
             
         }
     }
     public void render() {
-        for (Shader shader : shaders) {
-            synchronized (shader) {
-                shader.work = true;
-                shader.notify();
+        for (RenderCore renderCore : renderCores) {
+            synchronized (renderCore) {
+                renderCore.work = true;
+                renderCore.notify();
             }
         }
-        for (Shader shader : shaders) {
-            synchronized (shader.lock) {
-                while (shader.work) {
+        for (RenderCore renderCore : renderCores) {
+            synchronized (renderCore.lock) {
+                while (renderCore.work) {
                     try {
-                        shader.lock.wait();
+                        renderCore.lock.wait();
                     } catch (InterruptedException e) {
                         log.fatal(Rasterizer.class, e.toString());
                         WindowApplication.getContext().setShouldClose(true);
@@ -41,35 +41,27 @@ public class Rasterizer {
         }
     }
     public Rasterizer() {
-        shaders = new Shader[4];
-        for (var i = 0; i < shaders.length; i++) {
-            shaders[i] = new Shader("Shader" + i);
-            shaders[i].start();
+        renderCores = new RenderCore[4];
+        for (var i = 0; i < renderCores.length; i++) {
+            renderCores[i] = new RenderCore("RenderCore" + i);
+            renderCores[i].start();
         }
     }
     public void setContext(int width, int height, int distance) {
-        for (var shader: shaders) {
+        for (var shader: renderCores) {
             shader.setContext(width, height, distance);
         }
     }
     public void setContext(int[] screen, float[] zBuffer) {
-        for (var shader : shaders) {
+        for (var shader : renderCores) {
             shader.setContext(screen, zBuffer);
         }
     }
     public void setContext(ArrayList<VBO> vboList) {
         if (vboList != null) {
             this.vboList = vboList;
-            for (var shader : shaders) {
-                shader.vboList = this.vboList;
-            }
-        }
-    }
-
-    public void setContext(Camera camera) {
-        if (camera != null) {
-            for (var shader: shaders) {
-                shader.setContext(camera);
+            for (var shader : renderCores) {
+                shader.setContext(vboList);
             }
         }
     }

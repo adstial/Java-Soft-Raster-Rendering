@@ -19,28 +19,30 @@ public class MainTest {
         var vboList = new ArrayList<VBO>();
         var builder = VBOBuilderFactory.SetStyle(SimpleVBOBuilder.class);
         var test = builder.setParam(1).build();
-
-        vboList.add(test);
+        var test2 = builder.setParam(2).build();
+        vboList.add(test2);
 
         // Get window
-        var name = "Java Soft Raster Rendering";
-        var window = CreateDefaultMainApplication(name, 800, 800, NoneStyle);
+        var AppName = "Java Soft Raster Rendering";
+        var window = CreateDefaultMainApplication(AppName, 800, 800, NoneStyle);
 
 
         // Set config
         window.setExpectFps(60);
         window.setViewPortType("Follow Screen");
+        window.setFrameType("Center");
         window.addInputListener(MoveFunction("Default 1"));
         window.setList(vboList);
+
+        if (!window.checkPreparation()) {
+            log.fatal(MainTest.class, "window is nor prepared!");
+            System.exit(-1);
+        }
 
 
         window.initialize();
 
-        window.setScreenBackgroundColour(0xffffff);
-
-        if (!window.checkPreparation()) {
-            log.fatal("window is nor prepared!");
-        }
+        window.setScreenBackgroundColour(0xff9999);
 
         while (!window.ShouldClose()) {
             window.updateCamera();
