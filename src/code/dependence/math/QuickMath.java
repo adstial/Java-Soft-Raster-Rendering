@@ -29,4 +29,8 @@ public class QuickMath {
         if (rate >= -360 && rate <= 360) return cos[rate+360];
         else throw new RuntimeException("wrong:" + rate);
     }
+
+    public static boolean bitInByte(byte b, int index) {
+        return ((b >> index) & 0x1) == 0x1;
+    }
 }

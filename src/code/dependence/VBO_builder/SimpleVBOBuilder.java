@@ -31,10 +31,10 @@ public class SimpleVBOBuilder implements VBOBuilder<SimpleVBOBuilder, Integer> {
 
     private void createDefaultTriangle() {
         vbo.id = 1;
-        vbo.tfs = SingleColor;
+        vbo.triangleFillStyle = SingleColor;
         vbo.hasLight = false;
         vbo.vertexes = new Vector3D[] {
-                new Vector3D(0, 1, 2),
+                new Vector3D(0, 1, 2.1f),
                 new Vector3D(1, -1, 2),
                 new Vector3D(-1, -1, 2)
         };
@@ -47,7 +47,7 @@ public class SimpleVBOBuilder implements VBOBuilder<SimpleVBOBuilder, Integer> {
 
     private void createDefaultCube() {
         vbo.id = 2;
-        vbo.tfs = ColorList;
+        vbo.triangleFillStyle = ColorList;
         vbo.hasLight = false;
         vbo.hasNormals = false;
         var l = 0.5f;
