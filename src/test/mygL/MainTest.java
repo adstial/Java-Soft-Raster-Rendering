@@ -18,8 +18,9 @@ public class MainTest {
 
         var vboList = new ArrayList<VBO>();
         var builder = VBOBuilderFactory.SetStyle(SimpleVBOBuilder.class);
-        var test = builder.setParam(1).build();
+        var test1 = builder.setParam(1).build();
         var test2 = builder.setParam(2).build();
+        vboList.add(test1);
         vboList.add(test2);
 
         // Get window

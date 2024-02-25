@@ -1,4 +1,4 @@
-package code.dependence.json_paser;
+package code.dependence.serialization.json_paser;
 
 import java.util.HashMap;
 import java.util.List;
