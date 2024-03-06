@@ -10,6 +10,7 @@ public class Triangle {
     public float[] clippedLight;
     public int[] xRight, xLeft;
     public float[] zRight, zLeft;
+    public float[] lLeft, lRight;
     public float[][] vertices2D;
     public float[] vertexDepth;
     public int verticesCount;

@@ -7,10 +7,11 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static code.mygL.WindowApplication.CreateDefaultMainApplication;
-import static code.mygL.WindowApplication.MoveFunction;
-import static code.mygL.WindowApplication.NoneStyle;
-import static code.mygL.WindowApplication.log;
+import static code.mygL.ConfigType.*;
+import static code.mygL.WindowApp.CreateDefaultMainApp;
+import static code.mygL.WindowApp.NoneStyle;
+import static code.mygL.WindowApp.log;
+
 
 public class MainTest {
     @Test
@@ -20,19 +21,24 @@ public class MainTest {
         var builder = VBOBuilderFactory.SetStyle(SimpleVBOBuilder.class);
         var test1 = builder.setParam(1).build();
         var test2 = builder.setParam(2).build();
-        vboList.add(test1);
-        vboList.add(test2);
+        var test3 = builder.setParam(3).build();
+        var test4 = builder.setParam(4).build();
+//        vboList.add(test1);
+//        vboList.add(test2);
+//        vboList.add(test3);
+        vboList.add(test4);
 
         // Get window
         var AppName = "Java Soft Raster Rendering";
-        var window = CreateDefaultMainApplication(AppName, 800, 800, NoneStyle);
+        var window = CreateDefaultMainApp(AppName, 800, 800, NoneStyle);
 
 
         // Set config
-        window.setExpectFps(60);
-        window.setViewPortType("Follow Screen");
-        window.setFrameType("Center");
-        window.addInputListener(MoveFunction("Default 1"));
+        window.setConfig(EXPECT_FPS,60)
+                .setConfig(VIEW_PORT_STYLE, "follow screen")
+                .setConfig(FRAME_STYLE, "center")
+                .setConfig(INPUT_STYLE, "Default 1");
+
         window.setList(vboList);
 
         if (!window.checkPreparation()) {
@@ -44,8 +50,12 @@ public class MainTest {
         window.initialize();
 
         window.setScreenBackgroundColour(0xff9999);
-
+        int index = 0;
         while (!window.ShouldClose()) {
+//            index++;
+//            index %= 60;
+//            vboList.get(0).localRotation[0] = index * 2;
+//            vboList.get(0).localRotation[1] = index / 2;
             window.updateCamera();
             window.drawScreen();
             window.swapBuffer();
@@ -55,4 +65,5 @@ public class MainTest {
 
         window.terminate();
     }
+
 }

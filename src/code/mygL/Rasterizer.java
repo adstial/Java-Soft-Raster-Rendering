@@ -3,21 +3,33 @@ package code.mygL;
 import code.dependence.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 public class Rasterizer {
     private ArrayList<VBO> vboList;
+    private int vboNumber;
     public final RenderCore[] renderCores;
     private Logger log;
     public void prepare() {
         var num = vboList.size();
+        if (num == vboNumber) return;
+        vboNumber = num;
         if (num < renderCores.length) {
             renderCores[0].setVboStartAndEnd(0, num - 1);
             for (int i = 1; i < renderCores.length; i++) {
                 renderCores[i].setVboStartAndEnd(-1,-1);
             }
         } else {
-            var ave = num / renderCores.length;
-            
+            var quotient = num / renderCores.length;
+            var remainder = num % renderCores.length;
+
+            var start = 0; var end = 0;
+            for (int i = 0; i < renderCores.length; i++) {
+                end = start + quotient + (i < remainder ? 1 : 0);
+                renderCores[i].setVboStartAndEnd(start, end - 1);
+                start = end;
+            }
         }
     }
     public void render() {
@@ -34,7 +46,7 @@ public class Rasterizer {
                         renderCore.lock.wait();
                     } catch (InterruptedException e) {
                         log.fatal(Rasterizer.class, e.toString());
-                        WindowApplication.getContext().setShouldClose(true);
+                        WindowApp.getContext().setShouldClose(true);
                     }
                 }
             }
@@ -72,5 +84,9 @@ public class Rasterizer {
         } else {
             this.log.warming(Rasterizer.class, "reset exited log");
         }
+    }
+
+    public boolean hasPrepared() {
+        return vboList != null && Arrays.stream(this.renderCores).allMatch(Objects::nonNull);
     }
 }

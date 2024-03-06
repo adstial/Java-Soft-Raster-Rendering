@@ -12,8 +12,8 @@ import java.util.Queue;
 
 import code.dependence.logger.Logger;
 
-public class WindowApplication {
-    private static WindowApplication context;
+public class WindowApp {
+    private static WindowApp context;
     public static final Logger log = Logger.getGlobal();
     private String name;
     private JFrame frame;
@@ -25,6 +25,7 @@ public class WindowApplication {
     private int windowWidth,windowHeight;
     private int viewPortLocationX, viewPortLocationY;
     private int viewPortWidth, viewPortHeight;
+
     private Graphics g;
     private Graphics infoG;
 
@@ -32,30 +33,34 @@ public class WindowApplication {
     private Rasterizer rasterizer;
     private ArrayList<VBO> vboList;
 
-    public static WindowApplication CreateDefaultMainApplication(String name, int width, int height, int type) {
-        var thisWindow = new WindowApplication();
+    public static WindowApp CreateDefaultMainApp(String name, int width, int height, int type) {
+        var thisWindow = new WindowApp();
         thisWindow.name = name;
         thisWindow.windowWidth = width; thisWindow.windowHeight = height;
         thisWindow.willClose = false;
+        thisWindow.windowEvent = new LinkedList<>();
 
         thisWindow.frame = new JFrame(name);
-        thisWindow.frame.setSize(width,height);
+
         thisWindow.frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         thisWindow.frame.setResizable(false);
 
-        thisWindow.windowEvent = new LinkedList<>();
-        thisWindow.rasterizer = new Rasterizer();
+        context = thisWindow;
         return thisWindow;
     }
     public static final int NoneStyle = 0;
-    private WindowApplication() {}
+    private WindowApp() {}
     public void initialize() {
         QuickMath.initialize();
 
-        context = this;
-        this.screenBuffer =
-                new ScreenBuffer(viewPortLocationX, viewPortLocationY, viewPortWidth, viewPortHeight, this);
+
+        frame.setSize(windowWidth,windowHeight);
+
+
+        screenBuffer = new ScreenBuffer(viewPortLocationX, viewPortLocationY, viewPortWidth, viewPortHeight, this);
         frame.setVisible(true);
+
+        rasterizer = new Rasterizer();
         rasterizer.setContext(viewPortWidth, viewPortHeight, viewPortWidth * 2 / 3);
         rasterizer.setContext(vboList);
         rasterizer.setLog(log);
@@ -142,7 +147,7 @@ public class WindowApplication {
     public void setScreenBackgroundColour(int color) {
         if (screenBuffer != null)
             screenBuffer.setBackgroundColor(color);
-        else log.warming(WindowApplication.class, "ScreenBuffer has not initialized");
+        else log.warming(WindowApp.class, "ScreenBuffer has not initialized");
     }
     public boolean ShouldClose() {
         return willClose;
@@ -153,7 +158,7 @@ public class WindowApplication {
     public String getName() {
         return name;
     }
-    public static WindowApplication getContext() {
+    public static WindowApp getContext() {
         return context;
     }
     public final JFrame getFrame() {
@@ -165,16 +170,62 @@ public class WindowApplication {
     }
     public void setList(ArrayList<VBO> list) {
         if (list == null)
-            log.fatal(WindowApplication.class, "null value");
+            log.fatal(WindowApp.class, "null value");
         else
             vboList = list;
     }
+
+    public WindowApp setConfig(final ConfigType configType, final Number config) {
+        switch (configType) {
+            case EXPECT_FPS -> {
+                expectFps = config.floatValue();
+                expectMsPerFrame = (int) ((1 / expectFps) * 1000);
+            }
+        }
+        return this;
+    }
+    public WindowApp setConfig(final ConfigType configType, final String config) {
+        switch (configType) {
+            case FRAME_STYLE -> {
+                if (config.equals("center")) {
+                    var dim = Toolkit.getDefaultToolkit().getScreenSize();
+                    var screenHeight = dim.height;
+                    var screenWidth = dim.width;
+                    frame.setLocation((screenWidth - windowWidth) / 2, (screenHeight - windowHeight) / 2);
+                }
+            }
+            case INPUT_STYLE -> {
+                addInputListener(MoveFunction(config));
+            }
+            case VIEW_PORT_STYLE -> {
+                if (config.equals("follow screen")) {
+                    this.viewPortLocationX = 0;
+                    this.viewPortLocationY = 0;
+                    this.viewPortWidth = windowWidth;
+                    this.viewPortHeight = windowHeight;
+//            this.frame.setResizable(true);
+                    this.frame.addComponentListener(new ComponentAdapter() {
+                        @Override
+                        public void componentResized(ComponentEvent e) {
+//                    var frame = (JFrame) e.getSource();
+//                    var width = frame.getWidth();
+//                    var height = frame.getHeight();
+//                    context.setViewPort(0,0,width, height);
+//                    context.screenBuffer.reSet();
+                        }
+                    });
+                }
+            }
+        }
+        return this;
+    }
+
     public static KeyListener MoveFunction(String type) {
         if (type.equals("Default 1")) {
             return new KeyAdapter() {
                 @Override
                 public void keyPressed(KeyEvent e) {
-                    var context = WindowApplication.getContext();
+                    var context = WindowApp.getContext();
                     var keyCode = e.getKeyCode();
                     if (keyCode == KeyEvent.VK_ESCAPE) context.setShouldClose(true);
                     if (keyCode == KeyEvent.VK_1) {

@@ -4,6 +4,10 @@ public class QuickMath {
     public static float[] sin;
     public static float[] cos;
 
+    static {
+        initialize();
+    }
+
     public static void initialize() {
         //产生一个用于快速获得三角函数值的查找表
         sin = new float[1+360*2];
@@ -30,7 +34,22 @@ public class QuickMath {
         else throw new RuntimeException("wrong:" + rate);
     }
 
-    public static boolean bitInByte(byte b, int index) {
-        return ((b >> index) & 0x1) == 0x1;
+    public static void ave(int n, int k, final int[][] res) {
+        assert n >= 0; assert k > 0;
+        var quotient = n / k;
+        var remainder = n % k;
+
+        int start = 0;
+        int end = 0;
+
+        for (int i = 0; i < k; i++) {
+            end = start + quotient + (i < remainder ? 1 : 0);
+
+            res[i][0] = start;
+            res[i][1] = end - 1;
+
+            start = end;
+        }
+
     }
 }

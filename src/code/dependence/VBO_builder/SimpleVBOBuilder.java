@@ -1,7 +1,10 @@
 package code.dependence.VBO_builder;
 
 import code.dependence.math.Vector3D;
+import code.mygL.Light;
 import code.mygL.VBO;
+
+import java.util.ArrayList;
 
 import static code.mygL.VBO.TriangleFillStyle.*;
 
@@ -18,6 +21,7 @@ public class SimpleVBOBuilder implements VBOBuilder<SimpleVBOBuilder, Integer> {
         switch (style) {
             case 1 -> createDefaultTriangle();
             case 2 -> createDefaultCube();
+            case 3 -> createDefaultTriangleWithSingleLight();
         }
         return vbo;
     }
@@ -49,7 +53,6 @@ public class SimpleVBOBuilder implements VBOBuilder<SimpleVBOBuilder, Integer> {
         vbo.id = 2;
         vbo.triangleFillStyle = ColorList;
         vbo.hasLight = false;
-        vbo.hasNormals = false;
         var l = 0.5f;
         vbo.vertexes = new Vector3D[] {
                 new Vector3D( -l, -l, -l + 2.5f),
@@ -81,6 +84,32 @@ public class SimpleVBOBuilder implements VBOBuilder<SimpleVBOBuilder, Integer> {
         vbo.triangleCount = 12;
         setDefault();
     }
+
+    private void createDefaultTriangleWithSingleLight() {
+        vbo.id = 1;
+        vbo.triangleFillStyle = SingleColor;
+        vbo.hasLight = true;
+        vbo.vertexes = new Vector3D[] {
+                new Vector3D(0, 1, 2.1f),
+                new Vector3D(1, -1, 2),
+                new Vector3D(-1, -1, 2)
+        };
+        vbo.normals = new Vector3D[] {
+                new Vector3D(0,0,-1),
+                new Vector3D(0,0,-1),
+                new Vector3D(0,0,-1)
+        };
+
+        vbo.vertexCount = 3;
+        vbo.vertexLightLevels = new float[vbo.vertexCount];
+        vbo.indexes = new int[] {2, 1, 0};
+        vbo.triangleCount = 1;
+        vbo.lightSource = new ArrayList<>();
+        vbo.lightSource.add(new Light(1,1,10,4));
+        vbo.triangleColor = 0x123456;
+        setDefault();
+    }
+
 
     private void setDefault() {
         vbo.scale = 1;

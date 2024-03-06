@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class RenderCore extends Thread{
 
+    private final Logger log;
+
     public final Object lock;
     public boolean work;
     public boolean close;
@@ -32,7 +34,6 @@ public class RenderCore extends Thread{
     public Transformation transformation;
     public Shader shader;
     public Crop crop;
-
     public Triangle triangle;
 
 
@@ -41,6 +42,9 @@ public class RenderCore extends Thread{
         setName(name);
         lock = new Object();
 
+        log = Logger.getGlobal();
+
+        log.info(RenderCore.class, name + " has created");
         transformation = new Transformation();
         shader = new Shader();
 
@@ -98,7 +102,8 @@ public class RenderCore extends Thread{
                 triangle.scanUpperPosition = height;
                 triangle.scanLowerPosition = -1;
                 if (hasLight) {
-                    shader.scanTriangleWithLight(vbo.triangleFillStyle, triangle, width, height);
+                    shader.scanTriangleWithLight(vbo.triangleFillStyle, triangle, width, height, mostPosition[Left]);
+                    shader.renderTriangleWithLight(triangle, screen, zBuffer, width, vbo, triangleIndex);
                 } else {
                     shader.scanTriangleWithoutLight(vbo.triangleFillStyle, triangle, width, height);
                     shader.renderTriangleWithoutLight(triangle, screen, zBuffer, width, vbo, triangleIndex);
@@ -143,6 +148,7 @@ public class RenderCore extends Thread{
 
         triangle.xLeft = new int[height]; triangle.xRight = new int[height];
         triangle.zLeft = new float[height]; triangle.zRight =new float[height];
+        triangle.lLeft = new float[height]; triangle.lRight = new float[height];
 
         this.distance = distance;
     }

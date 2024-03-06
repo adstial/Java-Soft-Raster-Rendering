@@ -13,6 +13,7 @@ import java.util.ArrayList;
 * */
 public class VBO {
     public long id;
+    public boolean visible;
 
     public TriangleFillStyle triangleFillStyle;
     public int[] localRotation;
@@ -28,7 +29,6 @@ public class VBO {
 
 
     public boolean hasLight = false;
-    public boolean hasNormals = false;
     public Vector3D[] normals;
     public ArrayList<Light> lightSource;
     public float kd;
