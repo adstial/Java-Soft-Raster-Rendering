@@ -1,13 +1,13 @@
-package code.app;
+package code.mygL;
 
+import code.app.AppConfig;
 import code.dependence.logger.Logger;
-import code.mygL.*;
 
 import java.util.ArrayList;
 
 public class RenderThread extends Thread {
 
-    private Logger log = Logger.getGlobal();
+    private final Logger log = Logger.getGlobal();
 
 
     private RenderPanel renderPanel;
@@ -17,15 +17,18 @@ public class RenderThread extends Thread {
 
     public boolean fpsControl;
     private float expectFps;
-    private int expectMsPerFrame;
+    private int expectMilliSecondPerFrame;
+    private long oldTime;
 
 
     private ArrayList<VBO> vboList;
     private int vboNumber;
     private RenderCore[] renderCores;
 
-    private long oldTime;
-
+    public RenderThread() {
+        setExpectFps(AppConfig.expectFps);
+        setRenderCoreNumber(AppConfig.coreNumber);
+    }
 
 
 
@@ -35,6 +38,8 @@ public class RenderThread extends Thread {
         renderPanel.setGraphics();
 
         renderPanel.getRenderBuffer().setBackgroundColor(0xff99ff);
+
+        setContext();
 
         while (running) {
             Camera.update(true, true);
@@ -46,7 +51,7 @@ public class RenderThread extends Thread {
             renderPanel.setBuffer();
 
             // 设置环境
-            setContext();
+            setBuffer();
 
             // 为每个RenderCore分配任务
             assignTasks();
@@ -61,8 +66,8 @@ public class RenderThread extends Thread {
             if (fpsControl) {
                 var nowTime = System.currentTimeMillis();
                 var runTime = nowTime - oldTime;
-                if (runTime < expectMsPerFrame) try {
-                    Thread.sleep(expectMsPerFrame - runTime);
+                if (runTime < expectMilliSecondPerFrame) try {
+                    Thread.sleep(expectMilliSecondPerFrame - runTime);
                 } catch (InterruptedException e) {
                     log.fatal(RenderThread.class, e.toString());
                     e.printStackTrace(); // todo
@@ -74,34 +79,51 @@ public class RenderThread extends Thread {
 
     // 平均分配vbo给每一个render core：
     private void assignTasks() {
-        var num = vboList.size();
-        if (num == vboNumber) return;
-        vboNumber = num;
-        if (num < renderCores.length) {
-            renderCores[0].setVboStartAndEnd(0, num - 1);
+        // 获取渲染的vbo数量
+        var vboNum = vboList.size();
+
+        // 如果数量不变，使用上一帧的分配方式
+        if (vboNum == vboNumber) return;
+        vboNumber = vboNum;
+
+        // vbo数量小于渲染线程数量， 一一对应，多余的休眠
+        if (vboNum < renderCores.length) {
+            renderCores[0].setVboStartAndEnd(0, vboNum - 1);
+            log.info(RenderThread.class, "renderCore 0: " + "start: " + 0 + " end: " + (vboNum - 1));
+
             for (int i = 1; i < renderCores.length; i++) {
                 renderCores[i].setVboStartAndEnd(-1,-1);
             }
-        } else {
-            var quotient = num / renderCores.length;
-            var remainder = num % renderCores.length;
+        }
+
+        // vbo数量大于渲染线程数量，平均分配
+        else {
+            var quotient = vboNum / renderCores.length;
+            var remainder = vboNum % renderCores.length;
 
             var start = 0; var end = 0;
             for (int i = 0; i < renderCores.length; i++) {
                 end = start + quotient + (i < remainder ? 1 : 0);
+                log.info(RenderThread.class, "renderCore " + i + "start: " + start + " end: " + (end - 1));
                 renderCores[i].setVboStartAndEnd(start, end - 1);
                 start = end;
             }
         }
     }
 
+
+
     private void renderImage() {
+
+        // 唤醒线程， 渲染
         for (var core: renderCores) {
             synchronized (core) {
                 core.work = true;
                 core.notify();
             }
         }
+
+        // 等待渲染完成
         for (var core: renderCores) {
             synchronized (core.lock) {
                 while (core.work) {
@@ -128,7 +150,7 @@ public class RenderThread extends Thread {
         fpsControl = !(fps <= 0);
         this.expectFps = fps;
         try {
-            expectMsPerFrame = (int) (1f / expectFps * 1000);
+            expectMilliSecondPerFrame = (int) (1f / expectFps * 1000);
             log.info(RenderThread.class, "fps: " + expectFps);
         } catch (ArithmeticException ignored) {
         }
@@ -153,9 +175,19 @@ public class RenderThread extends Thread {
     private void setContext() {
         var rb = renderPanel.getRenderBuffer();
         for (var core: renderCores) {
-            core.setContext(rb.getNowScreen(), rb.getNowZBuffer());
             core.setContext(AppConfig.pw, AppConfig.ph, AppConfig.distance);
         }
+    }
+
+    private void setBuffer() {
+        var rb = renderPanel.getRenderBuffer();
+        for (var core: renderCores) {
+            core.setContext(rb.getNowScreen(), rb.getNowZBuffer());
+        }
+    }
+
+    private float getNowFps() {
+        return expectFps;
     }
 
 }

@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class RenderPanel extends JPanel {
+    public static final Logger log = Logger.getGlobal();
     private final RenderBuffer renderBuffer;
 
     private BufferedImage bufferedImage;
@@ -19,14 +20,17 @@ public class RenderPanel extends JPanel {
 
     private int backgroundColor;
 
-    public RenderPanel(int width, int height) {
-        super();
-        this.width = width; this.height = height;
+    public RenderPanel() {
+
         setLocation(AppConfig.px, AppConfig.py);
+
+        this.width = AppConfig.pw;
+        this.height = AppConfig.ph;
         setPreferredSize(new Dimension(width, height));
         setMinimumSize(new Dimension(width, height));
+
         setVisible(true);
-        graphics = this.getGraphics();
+
         renderBuffer = new RenderBuffer(width, height);
 
     }

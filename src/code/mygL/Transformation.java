@@ -19,6 +19,8 @@ public class Transformation {
             viewDirection = new Vector3D();
     public void transformation(VBO vbo, final float[][] localTrigonometric, final float[][] globalTrigonometric) {
         for (int i = 0; i < vbo.vertexCount; i++) {
+
+            //将顶点缓冲中的顶点恢复初始值，并按其所在对象本身坐标系进行转换
             var nowVertexes = vbo.updateVertexes[i];
             nowVertexes.set(vbo.vertexes[i])
                     .scale(vbo.scale)
@@ -27,6 +29,7 @@ public class Transformation {
                     .rotate_Z(localTrigonometric[Z][Sin], localTrigonometric[Z][Cos])
                     .add(vbo.localTranslation);
 
+            // 需要光照时才计算顶点法量
             if (vbo.hasLight) {
                 vertexNormal.set(vbo.normals[i])
                         .rotate_X(localTrigonometric[X][Sin], localTrigonometric[X][Cos])
@@ -56,7 +59,8 @@ public class Transformation {
                 }
             }
             nowVertexes.sub(Camera.position)
-                    .rotate_Y(globalTrigonometric[Y][Sin], globalTrigonometric[Y][Cos]).rotate_X(globalTrigonometric[X][Sin], globalTrigonometric[X][Cos]);
+                    .rotate_Y(globalTrigonometric[Y][Sin], globalTrigonometric[Y][Cos])
+                    .rotate_X(globalTrigonometric[X][Sin], globalTrigonometric[X][Cos]);
 
         }
     }

@@ -18,7 +18,6 @@ public class AppConfig {
     public static KeyListener keyListener = new KeyAdapter() {
         @Override
         public void keyPressed(KeyEvent e) {
-            System.out.println(e.getKeyCode());
             switch (e.getKeyCode()) {
                 // 强制退出
                 case KeyEvent.VK_ESCAPE -> System.exit(0);

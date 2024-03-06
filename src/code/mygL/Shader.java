@@ -1,20 +1,29 @@
-
 package code.mygL;
 
+import code.app.AppConfig;
+
 public class Shader {
-    public void scanTriangleWithoutLight(VBO.TriangleFillStyle tfs, final Triangle triangle, int width, int height) {
-        s1(triangle, width, height);
+    public static int width = AppConfig.pw, height = AppConfig.ph;
+
+
+    public void scanTriangleWithoutLight(VBO.TriangleFillStyle tfs, final Triangle triangle, float leftmostPosition) {
+        s1(triangle, leftmostPosition);
     }
 
-    private void s1(final Triangle triangle, int width, int height) {
+    private void s1(final Triangle triangle, float mostPosition) {
         var verticesCount = triangle.verticesCount;
 
         for (int i = 0; i < verticesCount; i++) {
+
             float[] v1 = triangle.vertices2D[i];
             float[] v2;
 
             float d1 = triangle.vertexDepth[i];
             float d2;
+
+            // 如果已经处理到最后一个顶点
+            // 则第二个点为第一个顶点
+            // 否则第二个顶点为下一个顶点
             if (i == verticesCount - 1) {
                 v2 = triangle.vertices2D[0];
                 d2 = triangle.vertexDepth[0];
@@ -22,29 +31,50 @@ public class Shader {
                 v2 = triangle.vertices2D[i + 1];
                 d2 = triangle.vertexDepth[i + 1];
             }
+
+            //默认是下降的边
             boolean downwards = true;
+
+            // 如果第一个顶点低于第二个顶点
+            // 则为上升的边
             if (v1[1] > v2[1]) {
                 downwards = false;
+
+                // 互换
                 var tempV = v1;
                 v1 = v2; v2 = tempV;
 
                 var tempD = d1;
                 d1 = d2; d2 = tempD;
             }
+
+
             float dy = v2[1] - v1[1];
+            // 忽略水平边
             if (dy == 0) continue;
 
             var startY = Math.max((int)(v1[1]) + 1, 0);
             var endY = Math.min((int) v2[1], height - 1);
 
-            if (startY < triangle.scanUpperPosition) triangle.scanUpperPosition = startY;
-            if (endY > triangle.scanLowerPosition) triangle.scanLowerPosition = endY;
+            if (startY < triangle.scanUpperPosition)
+                triangle.scanUpperPosition = startY;
+
+            if (endY > triangle.scanLowerPosition)
+                triangle.scanLowerPosition = endY;
 
             float gradient = (v2[0] - v1[0]) / dy;
-            float dz_y = (d2 - d1) / dy;
+
             float startX = ((v1[0]) + (startY - v1[1]) * gradient);
-            if (startX < 0 || startX > width) triangle.isClippingRightOrLeft = true;
+            if (startX < 0 && !triangle.isClippingRightOrLeft)
+                startX = mostPosition;
+
+
+            float dz_y = (d2 - d1) / dy;
+
             float tempZ = d1 - v1[1] * dz_y + startY * dz_y;
+
+//            if (startX < 0 || startX > width) triangle.isClippingRightOrLeft = true;
+
             for (var y = startY; y <= endY; y++, startX += gradient, tempZ += dz_y) {
                 if (downwards) {
                     triangle.xRight[y] = (int)startX;
@@ -222,14 +252,14 @@ public class Shader {
         for (int i = triangle.scanUpperPosition; i <= triangle.scanLowerPosition; i++) {
             int x_left = triangle.xLeft[i];
             int x_right = triangle.xRight[i];
-            if (x_right > width) x_right = width - 1;
-
-            if (x_left > width) x_left = width - 1;
+//            if (x_right > width) x_right = width - 1;
+//
+//            if (x_left > width) x_left = width - 1;
 
             float z_Left = triangle.zLeft[i];
             float z_Right = triangle.zRight[i];
 
-            float dz = (z_Right- z_Left)/(x_right - x_left);
+            float dz = (z_Right - z_Left) / (x_right - x_left);
 
             x_left += i * width;
             x_right += i * width;

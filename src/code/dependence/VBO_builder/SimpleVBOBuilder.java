@@ -22,6 +22,7 @@ public class SimpleVBOBuilder implements VBOBuilder<SimpleVBOBuilder, Integer> {
             case 1 -> createDefaultTriangle();
             case 2 -> createDefaultCube();
             case 3 -> createDefaultTriangleWithSingleLight();
+            case 4 -> createDefaultFloor();
         }
         return vbo;
     }
@@ -110,6 +111,33 @@ public class SimpleVBOBuilder implements VBOBuilder<SimpleVBOBuilder, Integer> {
         setDefault();
     }
 
+    private void createDefaultFloor() {
+        vbo.id = 4;
+        vbo.triangleFillStyle = SingleColor;
+        vbo.hasLight = false;
+
+        vbo.vertexes = new Vector3D[] {
+                new Vector3D( 10, -1,  10),
+                new Vector3D( 10, -1, -10),
+                new Vector3D(-10, -1,  10),
+                new Vector3D(-10, -1, -10),
+        };
+        vbo.normals = new Vector3D[] {
+                new Vector3D(0,-1,0),
+                new Vector3D(0,-1,0),
+                new Vector3D(0,-1,0),
+                new Vector3D(0,-1,0),
+        };
+        vbo.indexes = new int[] {
+                3, 1, 0,
+                2, 3, 0
+        };
+        vbo.vertexCount = 4;
+        vbo.vertexLightLevels = new float[vbo.vertexCount];
+        vbo.triangleCount = 2;
+        vbo.triangleColor = 0xffffff;
+        setDefault();
+    }
 
     private void setDefault() {
         vbo.scale = 1;

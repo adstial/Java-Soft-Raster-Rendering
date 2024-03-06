@@ -1,19 +1,15 @@
 package code.app;
 
+import code.dependence.VBO_builder.FileVBOBuilder;
+import code.dependence.VBO_builder.FunctionVBOBuilder;
 import code.dependence.VBO_builder.SimpleVBOBuilder;
 import code.dependence.VBO_builder.VBOBuilderFactory;
 import code.dependence.logger.Logger;
 import code.mygL.EntityManager;
-import code.mygL.Rasterizer;
 import code.mygL.RenderPanel;
-import code.mygL.WindowApp;
+import code.mygL.RenderThread;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.InputMethodListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class MyGLApp {
 
@@ -69,21 +65,27 @@ public class MyGLApp {
         }
 
 
-        useConfig();
+        initialize();
         return this;
     }
 
-    private void useConfig() {
-        appName = AppConfig.appName;
+    private void initialize() {
 
+        // 创建RenderThread
         renderThread = new RenderThread();
-        renderThread.setExpectFps(AppConfig.expectFps);
-        renderThread.setRenderCoreNumber(AppConfig.coreNumber);
 
-        var builder = VBOBuilderFactory.SetStyle(SimpleVBOBuilder.class);
-        var test = builder.setParam(1).build();
 
-        EntityManager.addVBO(test);
+
+        // 加载VBO
+        var builder1 = VBOBuilderFactory.SetStyle(SimpleVBOBuilder.class);
+//        var builder2 = VBOBuilderFactory.SetStyle(FileVBOBuilder.class);
+
+        var test1 = builder1.setParam(4).build();
+        var test2 = builder1.setParam(2).build();
+//        var test2 = builder2.setParam("").build();
+
+        EntityManager.addVBO(test1);
+        EntityManager.addVBO(test2);
         renderThread.setVboList(EntityManager.vboList);
 
     }
@@ -99,7 +101,7 @@ public class MyGLApp {
         }
 
         // 创建UI
-        createUI();
+        initializeUI();
 
 
         if (renderPanel != null && renderPanel.hasPrepared())
@@ -116,19 +118,17 @@ public class MyGLApp {
     }
 
     // 创建UI
-    private void createUI() {
-
+    private void initializeUI() {
+        // 主窗口
         var topFrame = new JFrame(AppConfig.appName);
         topFrame.setSize(AppConfig.width, AppConfig.height);
         topFrame.setLocation(AppConfig.x, AppConfig.y);
         topFrame.setResizable(false);
         topFrame.addKeyListener(AppConfig.keyListener);
 
-        renderPanel = new RenderPanel(AppConfig.pw, AppConfig.ph);
-        renderPanel.setGraphics();
 
-        var con = topFrame.getContentPane();
-        con.add(renderPanel);
+        renderPanel = new RenderPanel();
+        topFrame.add(renderPanel);
 
 
         topFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

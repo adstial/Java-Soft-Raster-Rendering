@@ -29,7 +29,7 @@ public class Logger {
         }
     }
 
-    public static String getTimeString() {
+    private static String getTimeString() {
         var time = LocalDateTime.now();
         var hour = time.getHour();
         String t;
@@ -44,9 +44,9 @@ public class Logger {
     private static final String infoSign = ConsoleColor.BLUE.getCode() + "[INFO]\t" + ConsoleColor.RESET.getCode();
     public <T> void info(Class<T> clazz, String info) {
         if (future == null)
-            future = AsyncPrintlnWithTime(infoSign + clazz.getSimpleName() + ":\t" + info);
+            future = AsyncPrintlnWithTime(infoSign + clazz.getSimpleName() + ": " + info);
         else
-            future = future.thenComposeAsync((VOID) -> AsyncPrintlnWithTime(infoSign + clazz.getSimpleName() + ":\t" + info));
+            future = future.thenComposeAsync((VOID) -> AsyncPrintlnWithTime(infoSign + clazz.getSimpleName() + ": " + info));
 
     }
 
@@ -57,16 +57,21 @@ public class Logger {
         else
             future = future.thenComposeAsync((VOID) -> AsyncPrintlnWithTime(infoSign + info));
     }
+
+
+
     
     
     private static final String fatalSign = ConsoleColor.RED.getCode() + "[FATAL]\t" + ConsoleColor.RESET.getCode();
 
     public <T> void fatal(Class<T> clazz, String fatal) {
         if (future == null)
-            future = AsyncPrintlnWithTime(fatalSign + clazz.getSimpleName() + ":\t" + fatal);
+            future = AsyncPrintlnWithTime(fatalSign + clazz.getSimpleName() + ": " + fatal);
         else
-            future = future.thenComposeAsync((VOID) -> AsyncPrintlnWithTime(fatalSign + clazz.getSimpleName() + ":\t" + fatal));
+            future = future.thenComposeAsync((VOID) -> AsyncPrintlnWithTime(fatalSign + clazz.getSimpleName() + ": " + fatal));
     }
+
+
     public void fatal(String fatal) {
         if (future == null)
             future = AsyncPrintlnWithTime(fatalSign + fatal);
@@ -76,13 +81,16 @@ public class Logger {
 
 
 
-    private static final String warmingSign = ConsoleColor.GREEN.getCode() + "[WARMING]\t" + ConsoleColor.RESET.getCode();
+
+
+    private static final String warmingSign =
+            ConsoleColor.GREEN.getCode() + "[WARMING]\t" + ConsoleColor.RESET.getCode();
 
     public <T> void warming(Class<T> clazz, String warming) {
         if (future == null)
-            future = AsyncPrintlnWithTime(warmingSign + clazz.getSimpleName() + ":\t" + warming);
+            future = AsyncPrintlnWithTime(warmingSign + clazz.getSimpleName() + ": " + warming);
         else
-            future = future.thenComposeAsync((VOID) -> AsyncPrintlnWithTime(warmingSign + clazz.getSimpleName() + ":\t" + warming));
+            future = future.thenComposeAsync((VOID) -> AsyncPrintlnWithTime(warmingSign + clazz.getSimpleName() + ": " + warming));
     }
 
 
@@ -100,9 +108,6 @@ public class Logger {
         return CompletableFuture.runAsync(() -> System.out.println(getTimeString() + text));
     }
 
-    private static CompletableFuture<Void> AsyncPrintln(String text) {
-        return CompletableFuture.runAsync(() -> System.out.println(text));
-    }
 
     public void waitUntilFinish() {
         if (future != null) CompletableFuture.allOf(future).join();

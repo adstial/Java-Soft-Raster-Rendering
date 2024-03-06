@@ -5,26 +5,39 @@ import code.dependence.math.QuickMath;
 
 import java.util.ArrayList;
 
+
+/**
+ * RenderCore类：
+ * 渲染VBO至屏幕缓冲中
+ *
+ *
+ *
+ */
 public class RenderCore extends Thread{
 
-    private final Logger log;
+    private final Logger log = Logger.getGlobal();;
 
+    // 锁住线程
     public final Object lock;
+
+
+    public static final float nearClipDistance = 0.01f;
+
     public boolean work;
     public boolean close;
 
     public int width, height, halfWidth, halfHeight, distance;
 
-    public ArrayList<VBO> vboList;
-    public int VboStart, VboEnd;
-    public VBO vbo;
+    public ArrayList<VBO> vboList;              // 引用
+    public int VboStart, VboEnd;                // 渲染Vbo的起始、结束的下标
+    public VBO vbo;                             // 正在渲染的VBO的引用
 
 
 
 
-    public static final float nearClipDistance = 0.01f;
-    public int[] screen;
-    public float[] zBuffer;
+
+    public int[] screen;            // 屏幕缓冲
+    public float[] zBuffer;         // z深度缓冲
 
     public static final int Sin = 0, Cos = 1;
     public float [][] localTrigonometric;
@@ -42,23 +55,25 @@ public class RenderCore extends Thread{
         setName(name);
         lock = new Object();
 
-        log = Logger.getGlobal();
-
-        log.info(RenderCore.class, name + " has created");
-        transformation = new Transformation();
-        shader = new Shader();
-
         localTrigonometric = new float[3][2];
         globalTrigonometric = new float[3][2];
         triangle = new Triangle();
+
+        transformation = new Transformation();
+        shader = new Shader();
         crop = new Crop();
+
+        log.info(RenderCore.class, name + " has created");
     }
 
 
     @Override
     public void run() {
         while (!close) {
+            // 等待唤醒
             sync();
+
+            //锁被打开后, 运行渲染任务
             rasterize();
         }
     }
@@ -66,38 +81,35 @@ public class RenderCore extends Thread{
 
     public int triangleIndex;
     private void rasterize() {
+        // 无需渲染，返回
         if (VboStart == -1) return;
+
+        // 遍历渲染对象
         for (int j = VboStart; j <= VboEnd; j++) {
+
             vbo = vboList.get(j);
             var hasLight = vbo.hasLight;
-            var tfs = vbo.triangleFillStyle;
 
+            // 获得所需的三角值
             getQuickTrigonometric();
 
+            // 施加全局变换、局部变换
             transformation.transformation(vbo, localTrigonometric, globalTrigonometric);
 
+            // 渲染VBO中的每个三角形
             for (triangleIndex = 0; triangleIndex < vbo.triangleCount; triangleIndex++) {
 
+                // 构建三角形
                 transformation.buildTriangle(hasLight, vbo, triangleIndex, triangle);
 
-                if (crop.testNotTowardView(triangle)) continue;
+                //测试三角形是否该被渲染出来
+                var isHidden = crop.testHidden(triangle, mostPosition);
+                if (isHidden) continue;
 
-                if (crop.testAllBehindClippingPlane(triangle)) continue;
+                //将在三角形在z裁键平面的部分裁剪掉
+                isHidden = crop.clipZNearPlane(triangle, mostPosition, vbo.hasLight);
+                if (isHidden) continue;
 
-                transformation.getVertices2D(triangle.vertices, triangle.vertices2D, triangle.vertexDepth, halfWidth, halfHeight, distance);
-
-                if (crop.testOutside(triangle.vertices2D, mostPosition, width, height)) continue;
-                else triangle.isClippingRightOrLeft = mostPosition[Left] < 0 || mostPosition[Right] >= width;
-
-                triangle.clipped = false;
-                triangle.verticesCount = 0;
-                crop.clipZNearPlaneIfNeeded(hasLight, triangle);
-
-                if (triangle.clipped) {
-                    transformation.getVertices2D(triangle.clippedVertices, triangle.vertices2D, triangle.vertexDepth, halfWidth, halfHeight, distance);
-                    if (crop.testOutside(triangle.vertices2D, mostPosition, width, height)) continue;
-                    else triangle.isClippingRightOrLeft = mostPosition[Left] < 0 || mostPosition[Right] >= width;
-                }
 
                 triangle.scanUpperPosition = height;
                 triangle.scanLowerPosition = -1;
@@ -105,7 +117,7 @@ public class RenderCore extends Thread{
                     shader.scanTriangleWithLight(vbo.triangleFillStyle, triangle, width, height, mostPosition[Left]);
                     shader.renderTriangleWithLight(triangle, screen, zBuffer, width, vbo, triangleIndex);
                 } else {
-                    shader.scanTriangleWithoutLight(vbo.triangleFillStyle, triangle, width, height);
+                    shader.scanTriangleWithoutLight(vbo.triangleFillStyle, triangle, mostPosition[Left]);
                     shader.renderTriangleWithoutLight(triangle, screen, zBuffer, width, vbo, triangleIndex);
                 }
             }
@@ -116,11 +128,17 @@ public class RenderCore extends Thread{
 
 
     private void getQuickTrigonometric() {
+
+        //从预先算好的三角函数表中获取变换角度所需的函数值
         for (int i = 0; i < 3; i++) {
             var r = vbo.localRotation[i];
             localTrigonometric[i][Sin] = QuickMath.getSin(r);
             localTrigonometric[i][Cos] = QuickMath.getCos(r);
+
+            // 全局变换与视角变换相反
             globalTrigonometric[i][Sin] = QuickMath.getSin(-Camera.rate[i]);
+
+            // cos函数无需取反
             globalTrigonometric[i][Cos] = QuickMath.getCos(Camera.rate[i]);
         }
     }
@@ -135,7 +153,9 @@ public class RenderCore extends Thread{
                     lock.notify();
                     work = false;
                 }
+                //等待渲染器发布新的命令
                 wait();
+
             } catch (InterruptedException e) {
                 Logger.getGlobal().fatal(RenderCore.class, "error in sync" + e);
             }

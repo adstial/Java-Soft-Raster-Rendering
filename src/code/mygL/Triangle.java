@@ -17,6 +17,7 @@ public class Triangle {
     public int scanUpperPosition, scanLowerPosition;
     public boolean isClippingRightOrLeft;
     public boolean clipped;
+    public boolean needToBeClipped;
 
 
 
