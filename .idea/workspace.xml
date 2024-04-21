@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ef117e1d-b258-4fd8-93e1-9aacc7fc59bf" name="更改" comment="打算重写">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/mygl.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assert/UIConfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/mygL/MyGL.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/mygL/ScreenBuffer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/plugin/DefaultlPlugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/plugin/Plugin.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/plugin/PluginManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/startup/MyGLApp.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/system/System.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/system/SystemManager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/system/buildin/Tick.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/top/Entity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/top/Output.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/top/Schedule.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/top/World.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/ui/Canvas.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/ui/CustomTitleBar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/ui/CycleButton.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/ui/DefaultUI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/ui/TopFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/ui/UIConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/ConstPool.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/json/ast/Json.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/json/ast/Json.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/json/ast/JsonObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/json/ast/Value.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/json/builder/JsonFile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/json/builder/JsonUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/json/exception/NoTokenException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/json/exception/UnExpectException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/json/token/TokenList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/math/QuickMath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/math/functable/TrigonometricTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/dependence/utils/Box.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/TestMyGLApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/objs/config.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/app/MyGLApp.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/app/plugin/buildin/InitNeeded.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/app/plugin/top/Plugin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dependence/json/builder/JsonElement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/app/plugin/top/PluginAnnotation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/app/plugin/top/PluginType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/json/ast/JsonAST.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/json/ast/Node.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/json/ast/NodeType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/json/token/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dependence/json/token/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/json/token/TokenType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dependence/json/token/TokenType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/json/token/TokenUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/dependence/json/token/TokenUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/logger/ConsoleColor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/logger/Filter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/logger/Logger.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/logger/LoggerHandle.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/logger/LoggerMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/logger/LoggerMessageLevel.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/logger/LoggerState.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/math/QuickMath.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/math/RandomUniqueNumber.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/math/Transformation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mygL/Transformation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/math/Vec3.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/mygL/Vec3.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/utils/Box.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/dependence/utils/TripleSwitch.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/assert/AppConfig.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/code/ui/TopFrame.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="UML Class" />
+        <option value="Dockerfile" />
+        <option value="UML Sequence" />
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="AnnotationType" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="rac9njzh" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2dOlOp756nuwnkZQNGUUIDDrMgs" />
+  <component name="ProjectViewState">
+    <option name="showExcludedFiles" value="false" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
+    <option name="sortByType" value="true" />
+    <option name="sortKey" value="BY_TYPE" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;DefaultPlantUmlFileTemplate&quot;: &quot;UML Sequence&quot;,
+    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
+    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.PaletteManager.WIDTH&quot;: &quot;208&quot;,
+    &quot;UI_DESIGNER_EDITOR_MODE.UIDesignerToolWindowManager.WIDTH&quot;: &quot;479&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Learning/Java/Engine&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.15292096&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="dependence.json.exception" />
+      <recent name="code.plugin.top" />
+      <recent name="code.mygL" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Learning\Java\New_Project\Java Soft Raster Rendering\src\resource\objs" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Learning\Java\New_Project\Java Soft Raster Rendering\src\dependence\json\ast" />
+      <recent name="D:\Learning\Java\New_Project\Java Soft Raster Rendering\src\app\top" />
+      <recent name="D:\Learning\Java\New_Project\Java Soft Raster Rendering\src\resource\objs" />
+    </key>
+  </component>
+  <component name="RunManager" selected="应用程序.TestMyGLApp">
+    <configuration name="AppleStyleTitleBar" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="app.ui.AppleStyleTitleBar" />
+      <module name="Java Soft Raster Rendering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="app.ui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMyGLApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test.TestMyGLApp" />
+      <module name="Java Soft Raster Rendering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestLogger.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Java Soft Raster Rendering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="test" />
+      <option name="MAIN_CLASS_NAME" value="test.TestLogger" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMyGLApp.test" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Java Soft Raster Rendering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="test" />
+      <option name="MAIN_CLASS_NAME" value="test.TestMyGLApp" />
+      <option name="METHOD_NAME" value="test" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMyGLApp.test_ui" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Java Soft Raster Rendering" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="test" />
+      <option name="MAIN_CLASS_NAME" value="test.TestMyGLApp" />
+      <option name="METHOD_NAME" value="test_ui" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="应用程序.TestMyGLApp" />
+        <item itemvalue="应用程序.AppleStyleTitleBar" />
+        <item itemvalue="JUnit.TestMyGLApp.test_ui" />
+        <item itemvalue="JUnit.TestMyGLApp.test" />
+        <item itemvalue="JUnit.TestLogger.test" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="默认任务">
+      <changelist id="ef117e1d-b258-4fd8-93e1-9aacc7fc59bf" name="更改" comment="" />
+      <created>1709886975368</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1709886975368</updated>
+      <workItem from="1709886976346" duration="94000" />
+      <workItem from="1709906279792" duration="2160000" />
+      <workItem from="1709941064489" duration="5510000" />
+      <workItem from="1709952317441" duration="7193000" />
+      <workItem from="1709969242357" duration="5794000" />
+      <workItem from="1709978121530" duration="1262000" />
+      <workItem from="1709995484398" duration="1519000" />
+      <workItem from="1710049452056" duration="6456000" />
+      <workItem from="1710055958897" duration="6532000" />
+      <workItem from="1710077815420" duration="3940000" />
+      <workItem from="1710113029250" duration="21420000" />
+      <workItem from="1710234480307" duration="1938000" />
+      <workItem from="1710246528565" duration="777000" />
+      <workItem from="1710316696304" duration="6511000" />
+      <workItem from="1710388752318" duration="4015000" />
+      <workItem from="1710575786493" duration="9702000" />
+      <workItem from="1710596709034" duration="916000" />
+      <workItem from="1710640905941" duration="4073000" />
+      <workItem from="1710655394929" duration="1660000" />
+      <workItem from="1710669808841" duration="6096000" />
+      <workItem from="1710717238969" duration="4243000" />
+      <workItem from="1710728932848" duration="148000" />
+      <workItem from="1710921646936" duration="2948000" />
+      <workItem from="1710932273065" duration="2827000" />
+      <workItem from="1710944920875" duration="16000" />
+      <workItem from="1711162637510" duration="5254000" />
+      <workItem from="1711178517141" duration="708000" />
+      <workItem from="1711187054709" duration="3049000" />
+      <workItem from="1711355512111" duration="1861000" />
+      <workItem from="1711766285118" duration="10606000" />
+      <workItem from="1711848611393" duration="3671000" />
+      <workItem from="1711976231927" duration="3236000" />
+      <workItem from="1712054074165" duration="11929000" />
+      <workItem from="1712119340589" duration="1962000" />
+      <workItem from="1712142235610" duration="6041000" />
+      <workItem from="1712216010924" duration="12591000" />
+      <workItem from="1712293264029" duration="13730000" />
+      <workItem from="1712369432827" duration="3218000" />
+      <workItem from="1712395268297" duration="8204000" />
+      <workItem from="1712445489264" duration="2949000" />
+      <workItem from="1712454146871" duration="11562000" />
+      <workItem from="1712566440334" duration="4627000" />
+      <workItem from="1712648707136" duration="6292000" />
+      <workItem from="1712674134343" duration="494000" />
+      <workItem from="1712674636511" duration="1175000" />
+      <workItem from="1712754484098" duration="3093000" />
+      <workItem from="1712816538247" duration="3375000" />
+      <workItem from="1712843504138" duration="2561000" />
+      <workItem from="1712984228606" duration="4015000" />
+      <workItem from="1713001869685" duration="4582000" />
+      <workItem from="1713059215272" duration="6293000" />
+      <workItem from="1713091209297" duration="3434000" />
+      <workItem from="1713099960024" duration="3776000" />
+      <workItem from="1713174253764" duration="1626000" />
+      <workItem from="1713272209649" duration="6777000" />
+      <workItem from="1713314937856" duration="1844000" />
+      <workItem from="1713326172278" duration="6606000" />
+      <workItem from="1713346430900" duration="2750000" />
+      <workItem from="1713362231780" duration="3349000" />
+      <workItem from="1713396118534" duration="546000" />
+      <workItem from="1713438613654" duration="9117000" />
+      <workItem from="1713485621626" duration="28000" />
+      <workItem from="1713602633514" duration="16759000" />
+      <workItem from="1713661572797" duration="3892000" />
+    </task>
+    <task id="LOCAL-00001" summary="打算重写">
+      <option name="closed" value="true" />
+      <created>1712119658448</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1712119658448</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="打算重写" />
+    <option name="LAST_COMMIT_MESSAGE" value="打算重写" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="shadersPool" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

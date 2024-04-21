@@ -1,0 +1,9 @@
+{
+  "title": "My App",
+  "location" : "center",
+  "size": {
+    "height": 600,
+    "width": 800
+  },
+  "backgroundColor": "#FFFFFF"
+}

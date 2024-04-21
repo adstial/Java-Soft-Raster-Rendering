@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="mygl">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/out/artifacts/mygl/mygl.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
